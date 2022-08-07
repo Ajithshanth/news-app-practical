@@ -13,9 +13,12 @@
         <span class="text-gray-400 text-sm"
           >{{ getDate(article.publishedAt) }}
         </span>
-        <span class="text-indigo-600 text-lg capitalize font-semibold">{{
-          article.title
-        }}</span>
+        <span class="text-indigo-600 text-lg capitalize font-semibold"
+          >{{ article.title }}
+          <v-icon @click="editHeadline(article)" medium color="black darken-4">
+            mdi-pencil-box
+          </v-icon></span
+        >
         <p class="text-gray-400 text-sm">
           {{ article.description }}
           <a @click="redirectToReal()" href="" class="text-indigo-600"
@@ -39,14 +42,21 @@
         </div>
 
         <div class="">
-          <p class="mt-48 bg-black/50 p-4  h-80">
-            <span class="text-white text-sm">{{
-              getDate(article.publishedAt)
-            }}</span>
+          <p class="mt-48 bg-black/50 p-4 h-80">
+            <span class="text-white text-sm"
+              >{{ getDate(article.publishedAt) }}
+            </span>
             <br />
-            <span class="text-white text-lg capitalize font-semibold">{{
-              article.title
-            }}</span>
+            <span class="text-white text-lg capitalize font-semibold"
+              >{{ article.title }}
+              <v-icon
+                @click="editHeadline(article)"
+                medium
+                color="white darken-4"
+              >
+                mdi-pencil-box
+              </v-icon></span
+            >
             <br />
             <a @click="redirectToReal()" href="" class="text-indigo-600"
               >Read More</a
@@ -55,14 +65,40 @@
         </div>
       </v-img>
 
-      <!-- {{ imagUrl }} -->
-      <!-- <div class="flex flex-col space-y-4">
-        <p class="text-gray-400 text-sm">
-          {{ article.description }}
-          <a href="" class="text-indigo-600">Read More</a>
-        </p>
-      </div> -->
+      
     </div>
+
+    <v-dialog
+      max-width="500px"
+      transition="slide-x-reverse-transition"
+      v-model="editHeadlineModal"
+    >
+      <v-card style="background-color: #f9f9f9">
+        <div class="p-8">
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Change Headline
+          </label>
+
+          <div class="flex">
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
+              v-model="newTitle"
+              type="text"
+              placeholder="Type here.."
+              autocomplete="off"
+              @keyup.enter="changeHeadline()"
+            />
+
+            <button
+              @click="changeHeadline"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Change
+            </button>
+          </div>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -77,7 +113,12 @@ export default {
     article: {},
   },
   data() {
-    return { imagUrl: "" };
+    return {
+      imagUrl: "",
+      editHeadlineModal: false,
+      title: "",
+      newTitle: "",
+    };
   },
   computed: {},
   created() {
@@ -119,6 +160,18 @@ export default {
       });
 
       router.push("/head-lines/" + title);
+    },
+    editHeadline(article) {
+      console.log("article.id:", article.title);
+
+      this.title = article.title;
+      this.editHeadlineModal = true;
+      console.log("Art", article);
+    },
+    changeHeadline() {
+      var titles = { title: this.title, newTitle: this.newTitle };
+      this.$emit("changeTitle", titles);
+      this.editHeadlineModal = false;
     },
   },
 };
