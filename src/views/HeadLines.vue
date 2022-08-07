@@ -1,7 +1,7 @@
 <template>
   <div class="p-8">
     <loading
-      opacity="1"
+      :opacity="1"
       background-color="white"
       :active.sync="isLoading"
       color="blue"
@@ -79,6 +79,7 @@
           />
 
           <div class="flex">
+            <!-- <input v-model="searchText" @change="activateFilter()"/> -->
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
               v-model="searchText"
@@ -86,6 +87,7 @@
               placeholder="Type here.."
               autocomplete="off"
               @keyup.enter="activateFilter()"
+              v-on:change="activateFilter()"
             />
 
             <button
