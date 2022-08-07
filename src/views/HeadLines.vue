@@ -1,5 +1,15 @@
 <template>
   <div class="p-8">
+    <loading
+      opacity="1"
+      background-color="white"
+      :active.sync="isLoading"
+      color="blue"
+      loader="spinner"
+      :width="50"
+      :height="50"
+      :is-full-page="true"
+    />
     <div class="flex justify-between items-center">
       <div class="text-2xl text-indigo-600">Headlines</div>
       <div>
@@ -34,11 +44,20 @@
       class="pt-6 grid lg:grid-cols-4 lg:gap-8 md:grid-cols-2 md:gap-6 grid-cols-1 gap-4"
     >
       <div v-for="item in articles" :key="item.id">
-        <HeadLineCard :article="item" @changeTitle="ChangeT($event)" />
+        <HeadLineCard :article="item" @changeTitle="changeTitle($event)" />
       </div>
     </div>
     <div v-if="noArticles" class="p-2 font-semibold text-center">
       There is no news in selected filters...
+    </div>
+
+    <div class="float-right mt-4 pb-2">
+      <button
+        @click="errorApiCall()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Error API Call
+      </button>
     </div>
     <v-dialog
       max-width="500px"
@@ -85,18 +104,21 @@
 <script>
 import store from "@/store";
 import HeadLineCard from "@/components/HeadLineCard.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "HeadLines",
-  components: { HeadLineCard },
+  components: { HeadLineCard, Loading },
   data: () => ({
-    sources: [],
-    articles: [],
+    isLoading: false,
     viewFilterModal: false,
     filtered: false,
+    noArticles: false,
+    sources: [],
+    articles: [],
     searchText: "",
     selectedSource: "",
-    noArticles: false,
     title: "",
     newTitle: "",
   }),
@@ -108,28 +130,35 @@ export default {
   watch: {},
   methods: {
     async getHeadlinedFromApi() {
+      this.isLoading = true;
       await this.$http
         .get(`/top-headlines?country=us&apiKey=${store.state.apiKey}`)
         .then((response) => {
           if (response.status == "200") {
             this.sources = response.data;
             this.articles = response.data.articles;
-            // if (this.articles.length > 0) {
-            //   for (let i = 0; i < this.articles.length; i++) {
-            //     this.articles.id = i;
-            //   }
-            // }
+            this.isLoading = false;
           }
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          alert(error.message);
         });
     },
 
     async getSourcesFromApi() {
+      this.isLoading = true;
       await this.$http
         .get(`/sources?apiKey=${store.state.apiKey}`)
         .then((response) => {
           if (response.status == "200") {
             this.sources = response.data.sources;
+            this.isLoading = false;
           }
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          alert(error.message);
         });
     },
 
@@ -168,17 +197,12 @@ export default {
     },
 
     getFilteredHeadlinedFromApi() {
+      this.isLoading = true;
       this.$http
         .get(`/top-headlines?q=${this.searchText}&apiKey=${store.state.apiKey}`)
         .then((response) => {
           if (response.status == "200") {
             this.articles = response.data.articles;
-
-            // if (this.articles.length > 0) {
-            //   for (let i = 0; i < this.articles.length; i++) {
-            //     this.articles.id = i;
-            //   }
-            // }
 
             if (this.selectedSource != "") {
               this.filterBySource();
@@ -194,7 +218,12 @@ export default {
               this.filtered = true;
               this.closeFilter();
             }
+            this.isLoading = false;
           }
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          alert(error.message);
         });
     },
 
@@ -221,7 +250,7 @@ export default {
       this.filtered = true;
       this.closeFilter();
     },
-    ChangeT(titles) {
+    changeTitle(titles) {
       console.log(titles);
 
       for (const obj of this.articles) {
@@ -236,6 +265,16 @@ export default {
       // this.newTitle = newTitle;
       // console.log(this.title);
       // console.log(this.newTitle);
+    },
+    async errorApiCall() {
+      this.isLoading = true;
+      await this.$http
+        .get(`/sources?apiKey`)
+        .then(() => {})
+        .catch((error) => {
+          this.isLoading = false;
+          alert(error.message);
+        });
     },
   },
 };
