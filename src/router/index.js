@@ -1,7 +1,7 @@
 // Imports
 import Vue from "vue";
 import Router from "vue-router";
-//import store from "../store";
+import store from "../store";
 
 Vue.use(Router);
 
@@ -10,31 +10,50 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/", 
-      redirect: { name: 'HeadLines' } 
+      path: "/",
+      redirect: { name: "HeadLines" },
     },
     // {
-    //   path: "/api-key", 
+    //   path: "/api-key",
     //   name: "ApiKey",
     //   component: () => import("../components/ApiKey.vue"),
     // },
     {
-      path: "/head-lines", 
+      path: "/head-lines",
       name: "HeadLines",
       component: () => import("../views/HeadLines.vue"),
     },
     {
-      path: "/head-lines/:id", 
-      name:"DetailView",
+      path: "/history",
+      name: "HistoryDetails",
+      component: () => import("../views/HistoryDetails.vue"),
+    },
+    {
+      path: "/:id",
+      name: "NewsDetails",
       component: () => import("../views/NewsDetails.vue"),
     },
   ],
 });
 router.beforeEach((to, from, next) => {
- // console.log("From:",from)
- // console.log("To:",to)
+  const date = new Date()
+  
+  //console.log("History:", to);
+  //console.log("date:", date);
+
+  if (to.path != "/" && to.path != "/head-lines" && to.path != "/history") {
+    var path = to.path.substring(1);
+    var history = { path, date };
+    console.log(history)
+    console.log(history.path)
+    console.log(history.date)
+
+    store.dispatch("addHistory", {
+      history,
+    });
+  }
+
   next();
 });
-
 
 export default router;

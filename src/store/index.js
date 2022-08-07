@@ -7,24 +7,33 @@ const store = new Vuex.Store({
   state: {
     apiKey: "c924afc561b84f1f80707784e0d1473c",
     slectedNews: [],
+    browserHistory: [],
   },
   mutations: {
     ADD_API_KEY: (state, data) => {
       state.apiKey = data;
       localStorage.setItem("apiKey", state.apiKey);
     },
+    ADD_HISTORY: (state, data) => {
+     console.log("path",data.path)
+     console.log("date",data.date)
+
+      state.browserHistory.push(data);
+      // console.log("history",state.browserHistory)
+    },
+
     ADD_NEWS: (state, data) => {
       state.author = data.author;
-      console.log(state.author)
+      //console.log(state.author)
       sessionStorage.setItem("author", state.author);
       state.title = data.title;
-      console.log(state.title)
+      // console.log(state.title)
       sessionStorage.setItem("title", state.title);
       state.description = data.description;
-      console.log(state.description)
+      //  console.log(state.description)
       sessionStorage.setItem("description", state.description);
       state.url = data.url;
-      console.log(state.url)
+      //  console.log(state.url)
       sessionStorage.setItem("url", state.url);
       state.urlToImage = data.urlToImage;
       sessionStorage.setItem("urlToImage", state.urlToImage);
@@ -32,19 +41,17 @@ const store = new Vuex.Store({
       sessionStorage.setItem("publishedAt", state.publishedAt);
       state.content = data.content;
       sessionStorage.setItem("content", state.content);
-     var car = window.sessionStorage.getItem("author");
-
-       console.log("car",car);
     },
   },
 
   actions: {
+    addHistory({ commit }, data) { 
+      commit("ADD_HISTORY", data.history);
+    },
+
     addNews({ commit }, data) {
       commit("ADD_NEWS", data);
     },
-    // addAllNews({ commit }, data) {
-    //   commit("ADD_ALL_NEWS", data);
-    // },
   },
 });
 
