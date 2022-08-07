@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    apiKey: "f9c303ef82ef4dca87dd80fb5037106d",
+    apiKey: "c924afc561b84f1f80707784e0d1473c",
     slectedNews: [],
   },
   mutations: {
@@ -42,6 +42,9 @@ const store = new Vuex.Store({
     addNews({ commit }, data) {
       commit("ADD_NEWS", data);
     },
+    // addAllNews({ commit }, data) {
+    //   commit("ADD_ALL_NEWS", data);
+    // },
   },
 });
 
