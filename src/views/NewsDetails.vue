@@ -1,7 +1,7 @@
 <template>
   <div class="p-8">
+    <BackComponent/>
     <div class="">
-      Back Button
 
       <div class="text-2xl text-black">Headlines : {{ title }}</div>
       <div class="text-lg text-black">Description : {{ description }}</div>
@@ -15,33 +15,34 @@
 </template>
 
 <script>
+import BackComponent from '@/components/BackComponent.vue';
 export default {
-  data() {
-    return {
-      author: "",
-      title: "",
-      description: "",
-      url: "",
-      urlToImage: "",
-      publishedAt: "",
-      content: "",
-    };
-  },
-  created() {
-    this.getData();
-  },
-
-  computed: {},
-  methods: {
-    getData() {
-      this.author = window.sessionStorage.getItem("author");
-      this.title = window.sessionStorage.getItem("title");
-      this.description = window.sessionStorage.getItem("description");
-      this.url = window.sessionStorage.getItem("url");
-      this.urlToImage = window.sessionStorage.getItem("urlToImage");
-      this.publishedAt = window.sessionStorage.getItem("publishedAt");
-      this.content = window.sessionStorage.getItem("content");
+    data() {
+        return {
+            author: "",
+            title: "",
+            description: "",
+            url: "",
+            urlToImage: "",
+            publishedAt: "",
+            content: "",
+        };
     },
-  },
+    created() {
+        this.getData();
+    },
+    computed: {},
+    methods: {
+        getData() {
+            this.author = window.sessionStorage.getItem("author");
+            this.title = window.sessionStorage.getItem("title");
+            this.description = window.sessionStorage.getItem("description");
+            this.url = window.sessionStorage.getItem("url");
+            this.urlToImage = window.sessionStorage.getItem("urlToImage");
+            this.publishedAt = window.sessionStorage.getItem("publishedAt");
+            this.content = window.sessionStorage.getItem("content");
+        },
+    },
+    components: { BackComponent }
 };
 </script>

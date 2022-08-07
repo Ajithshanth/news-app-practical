@@ -159,14 +159,12 @@ export default {
         content,
       });
 
-      router.push("/head-lines/" + title);
+      router.push("/" + title);
     },
     editHeadline(article) {
-      console.log("article.id:", article.title);
-
-      this.title = article.title;
+       this.title = article.title;
       this.editHeadlineModal = true;
-      console.log("Art", article);
+ 
     },
     changeHeadline() {
       var titles = { title: this.title, newTitle: this.newTitle };
