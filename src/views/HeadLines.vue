@@ -10,6 +10,7 @@
       :height="50"
       :is-full-page="true"
     />
+    
     <div class="flex justify-between items-center">
       <div class="text-2xl text-indigo-600">Headlines</div>
       <div>
