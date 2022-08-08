@@ -13,11 +13,7 @@ const router = new Router({
       path: "/",
       redirect: { name: "HeadLines" },
     },
-    // {
-    //   path: "/api-key",
-    //   name: "ApiKey",
-    //   component: () => import("../components/ApiKey.vue"),
-    // },
+
     {
       path: "/head-lines",
       name: "HeadLines",
@@ -36,23 +32,14 @@ const router = new Router({
   ],
 });
 router.beforeEach((to, from, next) => {
-  const date = new Date();
-
-  // console.log("History:", to);
-  //console.log("date:", date);
-
+  const date = new Date(); 
   if (to.name == "NewsDetails") {
     var path = to.path.substring(1);
-    var history = { path, date };
-    // console.log(history);
-    // console.log(history.path);
-    // console.log(history.date);
-
+    var history = { path, date }; 
     store.dispatch("addHistory", {
       history,
     });
-  }
-
+  } 
   next();
 });
 

@@ -66,35 +66,24 @@
 
 <script>
 import BackComponent from "@/components/BackComponent.vue";
+import store from "@/store";
 import moment from "moment";
 
 export default {
   components: { BackComponent },
   data() {
     return {
-      author: "",
-      title: "",
-      description: "",
-      url: "",
-      urlToImage: "",
-      publishedAt: "",
-      content: "",
+      author: store.state.author,
+      title: store.state.title,
+      description: store.state.description,
+      url: store.state.url,
+      urlToImage: store.state.urlToImage,
+      publishedAt: store.state.publishedAt,
+      content: store.state.content,
     };
-  },
-  created() {
-    this.getData();
   },
 
   methods: {
-    getData() {
-      this.author = window.sessionStorage.getItem("author");
-      this.title = window.sessionStorage.getItem("title");
-      this.description = window.sessionStorage.getItem("description");
-      this.url = window.sessionStorage.getItem("url");
-      this.urlToImage = window.sessionStorage.getItem("urlToImage");
-      this.publishedAt = window.sessionStorage.getItem("publishedAt");
-      this.content = window.sessionStorage.getItem("content");
-    },
     dateFormat(date) {
       return moment.utc(date).local().format("DD MMMM, YYYY");
     },

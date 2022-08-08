@@ -35,20 +35,13 @@ export default {
   components: { BackComponent },
   data: () => ({
     browserHistory: store.state.browserHistory,
-  }),
-  mounted() { 
-  },
-  created() {
-    
-  },
-  computed: {},
-  watch: {},
+  }),   
   methods: {
     getHistory(){
       this.browserHistory = store.state.browserHistoryStore;
     },
     dateFormat(date) {
-      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+      return moment(date).format(" hh:mm a - MMMM Do YYYY");
     },
   },
 };

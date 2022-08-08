@@ -119,8 +119,6 @@ export default {
     this.getHeadlinesFromApi();
   },
 
-  created() {},
-  watch: {},
   methods: {
     async getHeadlinesFromApi() {
       this.isLoading = true;
