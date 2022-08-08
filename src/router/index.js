@@ -36,17 +36,17 @@ const router = new Router({
   ],
 });
 router.beforeEach((to, from, next) => {
-  const date = new Date()
-  
-  //console.log("History:", to);
+  const date = new Date();
+
+  // console.log("History:", to);
   //console.log("date:", date);
 
-  if (to.path != "/" && to.path != "/head-lines" && to.path != "/history") {
+  if (to.name == "NewsDetails") {
     var path = to.path.substring(1);
     var history = { path, date };
-    console.log(history)
-    console.log(history.path)
-    console.log(history.date)
+    // console.log(history);
+    // console.log(history.path);
+    // console.log(history.date);
 
     store.dispatch("addHistory", {
       history,

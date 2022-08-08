@@ -5,35 +5,32 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    apiKey: "c924afc561b84f1f80707784e0d1473c",
-    slectedNews: [],
-    browserHistory: [],
+    apiKey: "c924afc561b84f1f80707784e0d1473c", 
+    browserHistory: JSON.parse(localStorage.getItem("browserHistory")) || [],
   },
   mutations: {
     ADD_API_KEY: (state, data) => {
       state.apiKey = data;
-      localStorage.setItem("apiKey", state.apiKey);
     },
     ADD_HISTORY: (state, data) => {
-     console.log("path",data.path)
-     console.log("date",data.date)
-
+     
       state.browserHistory.push(data);
-      // console.log("history",state.browserHistory)
+      localStorage.setItem(
+        "browserHistory",
+        JSON.stringify(state.browserHistory)
+      ); 
     },
 
     ADD_NEWS: (state, data) => {
+      // state.article = data;
+      //sessionStorage.setItem("article", state.article);
       state.author = data.author;
-      //console.log(state.author)
       sessionStorage.setItem("author", state.author);
       state.title = data.title;
-      // console.log(state.title)
       sessionStorage.setItem("title", state.title);
       state.description = data.description;
-      //  console.log(state.description)
       sessionStorage.setItem("description", state.description);
       state.url = data.url;
-      //  console.log(state.url)
       sessionStorage.setItem("url", state.url);
       state.urlToImage = data.urlToImage;
       sessionStorage.setItem("urlToImage", state.urlToImage);
@@ -45,12 +42,15 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    addHistory({ commit }, data) { 
+    addHistory({ commit }, data) {
       commit("ADD_HISTORY", data.history);
     },
 
     addNews({ commit }, data) {
       commit("ADD_NEWS", data);
+    },
+    addApiKey({ commit }, data) {
+      commit("ADD_API_KEY", data);
     },
   },
 });

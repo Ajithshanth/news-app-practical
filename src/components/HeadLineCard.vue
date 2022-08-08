@@ -11,7 +11,7 @@
           </v-icon>
         </div>
         <span class="text-gray-400 text-sm"
-          >{{ getDate(article.publishedAt) }}
+          >{{ dateFormat(article.publishedAt) }}
         </span>
         <span class="text-indigo-600 text-lg capitalize font-semibold"
           >{{ article.title }}
@@ -44,7 +44,7 @@
         <div class="">
           <p class="mt-48 bg-black/50 p-4 h-80">
             <span class="text-white text-sm"
-              >{{ getDate(article.publishedAt) }}
+              >{{ dateFormat(article.publishedAt) }}
             </span>
             <br />
             <span class="text-white text-lg capitalize font-semibold"
@@ -64,8 +64,6 @@
           </p>
         </div>
       </v-img>
-
-      
     </div>
 
     <v-dialog
@@ -89,12 +87,10 @@
               @keyup.enter="changeHeadline()"
             />
 
-            <button
-              @click="changeHeadline"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Change
-            </button>
+            <ButtonComponent
+              v-on:click.native="changeHeadline()"
+              text="Change"
+            />
           </div>
         </div>
       </v-card>
@@ -106,26 +102,23 @@
 import moment from "moment";
 import router from "@/router";
 import store from "@/store";
-//import { mapMutations } from "vuex";
+import ButtonComponent from "./ButtonComponent.vue"; 
 export default {
   name: "HeadLineCard",
   props: {
     article: {},
   },
-  data() {
-    return {
-      imagUrl: "",
-      editHeadlineModal: false,
-      title: "",
-      newTitle: "",
-    };
-  },
-  computed: {},
+  data: () => ({
+    imagUrl: "",
+    editHeadlineModal: false,
+    title: "",
+    newTitle: "",
+  }),
   created() {
     this.getImageUrl();
   },
   methods: {
-    getDate(date) {
+    dateFormat(date) {
       return moment.utc(date).local().format("DD MMMM, YYYY");
     },
     getImageUrl() {
@@ -148,7 +141,6 @@ export default {
       var urlToImage = this.article.urlToImage;
       var publishedAt = this.article.publishedAt;
       var content = this.article.content;
-
       store.dispatch("addNews", {
         author,
         title,
@@ -158,13 +150,11 @@ export default {
         publishedAt,
         content,
       });
-
       router.push("/" + title);
     },
     editHeadline(article) {
-       this.title = article.title;
+      this.title = article.title;
       this.editHeadlineModal = true;
- 
     },
     changeHeadline() {
       var titles = { title: this.title, newTitle: this.newTitle };
@@ -172,5 +162,6 @@ export default {
       this.editHeadlineModal = false;
     },
   },
+  components: { ButtonComponent },
 };
 </script>
