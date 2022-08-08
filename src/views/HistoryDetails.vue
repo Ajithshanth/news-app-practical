@@ -1,6 +1,6 @@
 <template>
   <div class="p-8">
-   <BackComponent/>
+    <BackComponent />
 
     <div class="flex justify-between items-center">
       <div class="text-2xl text-indigo-600">Browser History</div>
@@ -17,7 +17,7 @@
         <tbody>
           <tr v-for="(item, i) in browserHistory" :key="i">
             <td>{{ item.path }}</td>
-            <td>{{ getDate(item.date)}}</td>
+            <td>{{ dateFormat(item.date) }}</td>
           </tr>
         </tbody>
       </table>
@@ -26,27 +26,30 @@
 </template>
 
 <script>
-import store from "@/store";
-import moment from "moment"; 
+import store from "@/store"; 
+import moment from "moment";
 import BackComponent from "../components/BackComponent.vue";
 
 export default {
-    name: "HistoryDetails",
-    data: () => ({
-        browserHistory: store.state.browserHistory,
-    }),
-    mounted() {
-        
+  name: "HistoryDetails",
+  components: { BackComponent },
+  data: () => ({
+    browserHistory: store.state.browserHistory,
+  }),
+  mounted() { 
+  },
+  created() {
+    
+  },
+  computed: {},
+  watch: {},
+  methods: {
+    getHistory(){
+      this.browserHistory = store.state.browserHistoryStore;
     },
-    created() {
-       
+    dateFormat(date) {
+      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
     },
-    watch: {},
-    methods: {
-        getDate(date) {
-            return moment(date).format("MMMM Do YYYY, h:mm:ss a");
-        },
-    },
-    components: { BackComponent }
+  },
 };
 </script>
