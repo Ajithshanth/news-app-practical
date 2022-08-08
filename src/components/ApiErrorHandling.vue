@@ -56,7 +56,7 @@ export default {
         .then(() => {})
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+            alert(error.response.data.message);
         });
     },
     changeApiKey() {

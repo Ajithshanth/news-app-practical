@@ -132,7 +132,8 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+          console.log(error);
+          alert(error.response.data.message);
         });
     },
 
@@ -148,7 +149,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+          alert(error.response.data.message);
         });
     },
 
@@ -209,7 +210,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+           alert(error.response.data.message);
         });
     },
 
