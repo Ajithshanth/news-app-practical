@@ -72,6 +72,16 @@
       v-model="editHeadlineModal"
     >
       <v-card style="background-color: #f9f9f9">
+        <div class="flex justify-end">
+          <v-icon
+            class="mr-2 mt-2"
+            @click="editHeadlineModal = false"
+            large
+            color="red darken-2"
+          >
+            mdi-close-box
+          </v-icon>
+        </div>
         <div class="p-8">
           <label class="block text-gray-700 text-sm font-bold mb-2">
             Change Headline
@@ -102,7 +112,7 @@
 import moment from "moment";
 import router from "@/router";
 import store from "@/store";
-import ButtonComponent from "./ButtonComponent.vue"; 
+import ButtonComponent from "./ButtonComponent.vue";
 export default {
   name: "HeadLineCard",
   props: {
