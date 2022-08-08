@@ -12,7 +12,23 @@
     </v-app-bar>
 
     <v-main>
+      <v-icon
+        @click="scrollDown()"
+        x-large
+        color="blue darken-2"
+        class="float-right"
+      >
+        mdi-chevron-down-box
+      </v-icon>
       <router-view />
+      <v-icon
+        @click="scrollUp()"
+        x-large
+        color="blue darken-2"
+        class="float-right"
+      >
+        mdi-chevron-up-box
+      </v-icon>
     </v-main>
   </v-app>
 </template>
@@ -28,7 +44,20 @@ export default {
     viewHistory() {
       router.push("/history");
     },
+    scrollUp() {
+      document.documentElement.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+    scrollDown() {
+      // scrollTo(0, document.body.scrollHeight)
+
+      document.documentElement.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    },
   },
- 
 };
 </script>
