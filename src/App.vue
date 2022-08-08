@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <v-app-bar app dark style="background-color: #303e9f">
-      <span class="text-3xl">News</span>
+      <a href="/" class="link">
+        <span class="text-3xl">10QBIT News Portal</span>
+      </a>
+
       <v-spacer></v-spacer>
       <v-icon @click="viewHistory()" large color="white darken-4">
         mdi-clipboard-text-clock
@@ -16,6 +19,7 @@
 
 <script>
 import router from "@/router";
+
 export default {
   name: "App",
 
@@ -25,8 +29,6 @@ export default {
       router.push("/history");
     },
   },
-  data: () => ({
-    //
-  }),
+ 
 };
 </script>
