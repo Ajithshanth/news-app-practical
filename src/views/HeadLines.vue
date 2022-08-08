@@ -17,6 +17,7 @@
       </div>
     </div>
     <!-- Begin: Filter Info -->
+
     <FilterInfo
       v-if="filtered"
       :searchText="searchText"
@@ -38,10 +39,10 @@
     </div>
 
     <!-- Begin: API Error -->
-
     <ApiErrorHandling />
-
     <!-- Begin: API Error -->
+
+    <!-- <button id="scrollToTopBtn"></button> -->
 
     <!-- Begin : Filter Input Modal -->
     <v-dialog
@@ -50,6 +51,16 @@
       v-model="viewFilterModal"
     >
       <v-card style="background-color: #f9f9f9">
+        <div class="flex justify-end">
+          <v-icon
+            class="mr-2 mt-2"
+            @click="viewFilterModal = false"
+            large
+            color="red darken-2"
+          >
+            mdi-close-box
+          </v-icon>
+        </div>
         <div class="p-8">
           <label class="block text-gray-700 text-sm font-bold mb-2">
             Filter Topic
@@ -120,6 +131,20 @@ export default {
   },
 
   methods: {
+    scrollUp() {
+      document.documentElement.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+    scrollDown() {
+      // scrollTo(0, document.body.scrollHeight)
+
+      document.documentElement.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    },
     async getHeadlinesFromApi() {
       this.isLoading = true;
       await this.$http
@@ -210,7 +235,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-           alert(error.response.data.message);
+          alert(error.response.data.message);
         });
     },
 

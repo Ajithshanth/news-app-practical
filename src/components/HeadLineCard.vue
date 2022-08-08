@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="imagUrl == ''"
-      class="box-content p-4 h-80 min-h-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+      class="box-content p-4 h-96 min-h-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
     >
       <div class="flex flex-col space-y-4">
         <div class="self-end">
@@ -32,7 +32,7 @@
       <v-img
         v-if="imagUrl"
         :src="imagUrl"
-        style="height: 350px"
+        style="height: 415px"
         class="box-content min-h-full shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
       >
         <div class="float-right p-4">
@@ -42,7 +42,7 @@
         </div>
 
         <div class="">
-          <p class="mt-48 bg-black/50 p-4 h-80">
+          <p class="mt-48 bg-black/50 p-4 h-96">
             <span class="text-white text-sm"
               >{{ dateFormat(article.publishedAt) }}
             </span>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="float-right mt-4 pb-2">
+    <div class="flex justify-end items-center mt-4">
       <ButtonComponent
         v-on:click.native="errorApiCall()"
         text="Error API Call"
@@ -16,6 +16,17 @@
       v-model="changApiKeyModal"
     >
       <v-card style="background-color: #f9f9f9">
+        <div class="flex justify-end">
+          <v-icon
+            class="mr-2 mt-2"
+            @click="changApiKeyModal = false"
+            large
+            color="red darken-2"
+          >
+            mdi-close-box
+          </v-icon>
+        </div>
+
         <div class="p-8">
           <label class="block text-gray-700 text-sm font-bold mb-2">
             API KEY
@@ -56,14 +67,14 @@ export default {
         .then(() => {})
         .catch((error) => {
           this.isLoading = false;
-            alert(error.response.data.message);
+          alert(error.response.data.message);
         });
     },
     changeApiKey() {
       // var local = JSON.parse(localStorage.getItem("apiKey"));
 
       var apiKey = this.apiKey;
-      
+
       console.log("var apiKey", apiKey);
       store.dispatch("addApiKey", {
         apiKey,
