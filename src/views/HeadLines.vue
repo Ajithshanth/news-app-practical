@@ -162,6 +162,9 @@ export default {
 
     activateFilter() {
       const hasMoreThan255 = !/^[\u0000-\u007f]*$/.test(this.searchText);
+      if (this.selectedSource == "" && this.searchText == "") {
+        alert("Please Select or Type");
+      }
       if (!hasMoreThan255) {
         if (this.searchText != "") {
           this.getFilteredHeadlinedFromApi();
