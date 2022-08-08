@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import store from "@/store"; 
+import store from "@/store";
 import moment from "moment";
 import BackComponent from "../components/BackComponent.vue";
 
@@ -35,11 +35,8 @@ export default {
   components: { BackComponent },
   data: () => ({
     browserHistory: store.state.browserHistory,
-  }),   
+  }),
   methods: {
-    getHistory(){
-      this.browserHistory = store.state.browserHistoryStore;
-    },
     dateFormat(date) {
       return moment(date).format(" hh:mm a - MMMM Do YYYY");
     },

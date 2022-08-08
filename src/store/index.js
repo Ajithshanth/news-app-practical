@@ -5,20 +5,19 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    apiKey: "c924afc561b84f1f80707784e0d1473c",
+    apiKey: localStorage.getItem("apiKey") || "",
     browserHistory: JSON.parse(localStorage.getItem("browserHistory")) || [],
-    author: sessionStorage.getItem("author"),
-    title: sessionStorage.getItem("title"),
-    description: sessionStorage.getItem("description"),
-    url: sessionStorage.getItem("url"),
-    urlToImage: sessionStorage.getItem("urlToImage"),
-    publishedAt: sessionStorage.getItem("publishedAt"),
-    content: sessionStorage.getItem("content"),
+    author: sessionStorage.getItem("author") || "",
+    title: sessionStorage.getItem("title") || "",
+    description: sessionStorage.getItem("description") || "",
+    url: sessionStorage.getItem("url") || "",
+    urlToImage: sessionStorage.getItem("urlToImage") || "",
+    publishedAt: sessionStorage.getItem("publishedAt") || "",
+    content: sessionStorage.getItem("content") || "",
   },
   mutations: {
     ADD_API_KEY: (state, data) => {
-      state.apiKey = data;
-      console.log(state.apiKey)
+      state.apiKey = data.apiKey;
       localStorage.setItem("apiKey", state.apiKey);
     },
     ADD_HISTORY: (state, data) => {
@@ -63,5 +62,3 @@ const store = new Vuex.Store({
 });
 
 export default store;
-
-// export const ROOT_DISPATCH = Object.freeze({ root: true });

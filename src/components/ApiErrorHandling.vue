@@ -31,11 +31,7 @@
               @keyup.enter="changeApiKey()"
             />
 
-           
-             <ButtonComponent
-        v-on:click.native="changeApiKey"
-        text="Change"
-      />
+            <ButtonComponent v-on:click.native="changeApiKey" text="Change" />
           </div>
         </div>
       </v-card>
@@ -51,7 +47,6 @@ export default {
   data: () => ({
     changApiKeyModal: false,
     apiKey: "c924afc561b84f1f80707784e0d1473c",
-    
   }),
   methods: {
     async errorApiCall() {
@@ -65,7 +60,11 @@ export default {
         });
     },
     changeApiKey() {
+      // var local = JSON.parse(localStorage.getItem("apiKey"));
+
       var apiKey = this.apiKey;
+      
+      console.log("var apiKey", apiKey);
       store.dispatch("addApiKey", {
         apiKey,
       });
