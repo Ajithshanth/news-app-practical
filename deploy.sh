@@ -10,16 +10,16 @@ npm run build
 cd dist
 
 # if you are deploying to a custom domain
- echo 'http://www.practical.10qbit.io/' > CNAME
+ echo 'https://ajithshanth.github.io/news-app-practical/' > CNAME
 
 git init
 git add -A
 git commit -m 'deploy'
 
 # if you are deploying to https://<USERNAME>.github.io
-git push -f git@github.com:Ajithshanth/Ajithshanth.github.io.git main
+# git push -f git@github.com:Ajithshanth/Ajithshanth.github.io.git main
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:Ajithshanth/news-app-practical.git main:gh-pages
+git push -f git@github.com:ajithshanth/news-app-practical.git master:gh-pages
 
 cd -
