@@ -14,7 +14,7 @@
 <script>
 import ButtonComponent from "./ButtonComponent.vue";
 export default {
-  props: { searchText: {}, selectedSource: {} },
+  props: { searchText: String, selectedSource: String },
   components: { ButtonComponent },
   methods: {
     clearFilter(){
