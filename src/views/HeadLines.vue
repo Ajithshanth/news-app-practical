@@ -129,23 +129,11 @@ export default {
   }),
   mounted() {
     this.getHeadlinesFromApi();
+     this.getSourcesFromApi();
   },
 
   methods: {
-    scrollUp() {
-      document.documentElement.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    },
-    scrollDown() {
-      // scrollTo(0, document.body.scrollHeight)
-
-      document.documentElement.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-    },
+ 
     async getHeadlinesFromApi() {
       this.isLoading = true;
       await this.$http
@@ -179,8 +167,7 @@ export default {
         });
     },
 
-    viewFilter() {
-      this.getSourcesFromApi();
+    viewFilter() { 
       this.viewFilterModal = true;
     },
     closeFilter() {
@@ -209,7 +196,7 @@ export default {
       this.noArticles = false;
       if (this.selectedSource != "") {
         this.selectedSource = "";
-        this.getSourcesFromApi();
+       
       }
       this.getHeadlinesFromApi();
     },
