@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.link:link {
+  color: white;
+}
 
+.link:visited {
+  color: white;
+}
  
- 
+.link:active {
+  color: white;
+}
