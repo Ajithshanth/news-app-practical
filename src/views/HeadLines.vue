@@ -13,52 +13,37 @@
     <div class="flex justify-between items-center">
       <div class="text-2xl text-indigo-600">Headlines</div>
       <div>
-        <button
-          @click="viewFilter()"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Filter
-        </button>
+        <ButtonComponent v-on:click.native="viewFilter()" text=" Filter" />
       </div>
     </div>
-
-    <div v-if="filtered" class="flex justify-between items-center mt-2">
-      <div class="text-lg text-indigo-600">
-        Headlines Filtered : {{ searchText }}
-      </div>
-      <div class="text-lg text-indigo-600">
-        Topic Filtered : {{ selectedSource }}
-      </div>
-      <div>
-        <button
-          @click="clearFilter()"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Clear Filter
-        </button>
-      </div>
-    </div>
-
+    <!-- Begin: Filter Info -->
+    <FilterInfo
+      v-if="filtered"
+      :searchText="searchText"
+      :selectedSource="selectedSource"
+      @clearFilter="clearFilter($event)"
+    />
+    <!-- End: Filter Info -->
     <div
       v-if="!noArticles"
       class="pt-6 grid lg:grid-cols-4 lg:gap-8 md:grid-cols-2 md:gap-6 grid-cols-1 gap-4"
     >
-      <div v-for="item in articles" :key="item.id">
+      <div v-for="(item, i) in articles" :key="i">
         <HeadLineCard :article="item" @changeTitle="changeTitle($event)" />
       </div>
     </div>
+
     <div v-if="noArticles" class="p-2 font-semibold text-center">
       There is no news in selected filters...
     </div>
 
-    <div class="float-right mt-4 pb-2">
-      <button
-        @click="errorApiCall()"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Error API Call
-      </button>
-    </div>
+    <!-- Begin: API Error -->
+
+    <ApiErrorHandling />
+
+    <!-- Begin: API Error -->
+
+    <!-- Begin : Filter Input Modal -->
     <v-dialog
       max-width="500px"
       transition="slide-x-reverse-transition"
@@ -79,7 +64,6 @@
           />
 
           <div class="flex">
-            <!-- <input v-model="searchText" @change="activateFilter()"/> -->
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
               v-model="searchText"
@@ -89,17 +73,15 @@
               @keyup.enter="activateFilter()"
               v-on:change="activateFilter()"
             />
-
-            <button
-              @click="activateFilter()"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Search
-            </button>
+            <ButtonComponent
+              v-on:click.native="activateFilter()"
+              text="Search"
+            />
           </div>
         </div>
       </v-card>
     </v-dialog>
+    <!-- End : Filter Input Modal -->
   </div>
 </template>
 
@@ -108,10 +90,19 @@ import store from "@/store";
 import HeadLineCard from "@/components/HeadLineCard.vue";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import ApiErrorHandling from "@/components/ApiErrorHandling.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
+import FilterInfo from "@/components/FilterInfo.vue";
 
 export default {
   name: "HeadLines",
-  components: { HeadLineCard, Loading },
+  components: {
+    HeadLineCard,
+    Loading,
+    ApiErrorHandling,
+    ButtonComponent,
+    FilterInfo,
+  },
   data: () => ({
     isLoading: false,
     viewFilterModal: false,
@@ -125,19 +116,18 @@ export default {
     newTitle: "",
   }),
   mounted() {
-    this.getHeadlinedFromApi();
+    this.getHeadlinesFromApi();
   },
 
   created() {},
   watch: {},
   methods: {
-    async getHeadlinedFromApi() {
+    async getHeadlinesFromApi() {
       this.isLoading = true;
       await this.$http
         .get(`/top-headlines?country=us&apiKey=${store.state.apiKey}`)
         .then((response) => {
           if (response.status == "200") {
-            this.sources = response.data;
             this.articles = response.data.articles;
             this.isLoading = false;
           }
@@ -173,8 +163,6 @@ export default {
     },
 
     activateFilter() {
-      console.log("searchText", this.searchText);
-      console.log("selectedSource", this.selectedSource);
       const hasMoreThan255 = !/^[\u0000-\u007f]*$/.test(this.searchText);
       if (!hasMoreThan255) {
         if (this.searchText != "") {
@@ -195,7 +183,7 @@ export default {
         this.selectedSource = "";
         this.getSourcesFromApi();
       }
-      this.getHeadlinedFromApi();
+      this.getHeadlinesFromApi();
     },
 
     getFilteredHeadlinedFromApi() {
@@ -209,13 +197,8 @@ export default {
             if (this.selectedSource != "") {
               this.filterBySource();
             } else {
-              console.log("Filter by Headline:", this.searchText);
-
-              var sources = [];
-              this.articles.forEach((element) => {
-                sources.push(element.source.name);
-              });
-              console.log("Sources:", sources);
+              //Print Sources to Search
+              this.printSources();
 
               this.filtered = true;
               this.closeFilter();
@@ -230,13 +213,8 @@ export default {
     },
 
     filterBySource() {
-      console.log("Filter by Headline:", this.searchText);
-      console.log("Filter by Source :", this.selectedSource);
-      var sources = [];
-      this.articles.forEach((element) => {
-        sources.push(element.source.name);
-      });
-      console.log("Sources:", sources);
+      //Print Sources to Search
+      this.printSources();
 
       var filteredArticles = this.articles.filter((obj) => {
         return obj.source.name === this.selectedSource;
@@ -244,17 +222,24 @@ export default {
 
       if (filteredArticles.length > 0) {
         this.articles = filteredArticles;
-        console.log("Articles", filteredArticles);
       } else {
-        console.log("No Articles");
         this.noArticles = true;
       }
       this.filtered = true;
       this.closeFilter();
     },
-    changeTitle(titles) {
-      console.log(titles);
 
+    printSources() {
+      console.log("Filter by Headline:", this.searchText);
+      console.log("Filter by Source :", this.selectedSource);
+
+      var sources = [];
+      this.articles.forEach((element) => {
+        sources.push(element.source.name);
+      });
+      console.log("Sources:", sources);
+    },
+    changeTitle(titles) {
       for (const obj of this.articles) {
         if (obj.title === titles.title) {
           obj.title = titles.newTitle;
@@ -262,21 +247,6 @@ export default {
           break;
         }
       }
-
-      // this.title = title;
-      // this.newTitle = newTitle;
-      // console.log(this.title);
-      // console.log(this.newTitle);
-    },
-    async errorApiCall() {
-      this.isLoading = true;
-      await this.$http
-        .get(`/sources?apiKey`)
-        .then(() => {})
-        .catch((error) => {
-          this.isLoading = false;
-          alert(error.message);
-        });
     },
   },
 };
