@@ -7,7 +7,7 @@
       />
       <ButtonComponent
         v-on:click.native="changApiKeyModal = true"
-        text="Error API Call"
+        text="Change API Key"
       />
     </div>
     <v-dialog
@@ -51,6 +51,7 @@ export default {
   data: () => ({
     changApiKeyModal: false,
     apiKey: "c924afc561b84f1f80707784e0d1473c",
+    
   }),
   methods: {
     async errorApiCall() {
