@@ -132,7 +132,8 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+          console.log(error);
+          alert(error.response.data.message);
         });
     },
 
@@ -148,7 +149,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+          alert(error.response.data.message);
         });
     },
 
@@ -162,6 +163,9 @@ export default {
 
     activateFilter() {
       const hasMoreThan255 = !/^[\u0000-\u007f]*$/.test(this.searchText);
+      if (this.selectedSource == "" && this.searchText == "") {
+        alert("Please Select or Type");
+      }
       if (!hasMoreThan255) {
         if (this.searchText != "") {
           this.getFilteredHeadlinedFromApi();
@@ -206,7 +210,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          alert(error.message);
+           alert(error.response.data.message);
         });
     },
 
