@@ -11,29 +11,21 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      redirect: { name: "HeadLines" },
+      redirect: { name: "Home" },
     },
 
     {
-      path: "/head-lines",
-      name: "HeadLines",
-      component: () => import("../views/HeadLines.vue"),
+      path: "/home",
+      name: "Home",
+      component: () => import("../views/Home/HomePage.vue"),
     },
-    {
-      path: "/history",
-      name: "HistoryDetails",
-      component: () => import("../views/HistoryDetails.vue"),
-    },
-    {
-      path: "/:id",
-      name: "NewsDetails",
-      component: () => import("../views/NewsDetails.vue"),
-    },
+
+ 
   ],
 });
 router.beforeEach((to, from, next) => {
   const date = new Date(); 
-  if (to.name == "NewsDetails") {
+  if (to.name == "Home") {
     var path = to.path.substring(1);
     var history = { path, date }; 
     store.dispatch("addHistory", {

@@ -28,7 +28,7 @@
 <script>
 import store from "@/store";
 import moment from "moment";
-import BackComponent from "../components/BackComponent.vue";
+import BackComponent from "../../components/BackComponent.vue";
 
 export default {
   name: "HistoryDetails",
